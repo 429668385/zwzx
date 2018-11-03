@@ -1,0 +1,27 @@
+INSERT  INTO
+	work_user
+      ( 
+      ID                            
+      ,phone                          
+      ,username                       
+      ,password                       
+      ,status                         
+      ,userkey                        
+      ,idcard                         
+      ,realname                       
+      ,sex                            
+      ,address                        
+      ) 
+values
+      (
+      :workUser.id                            
+      ,:workUser.phone                         
+      ,:workUser.username                      
+      ,:workUser.password                      
+      ,:workUser.status                        
+      ,:workUser.userkey                       
+      ,:workUser.idcard                        
+      ,:workUser.realname                      
+      ,:workUser.sex                           
+      ,:workUser.address                       
+      )

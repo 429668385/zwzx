@@ -77,7 +77,7 @@ public class ApiApplyController extends BaseController {
 		if(pageNo==0){
 			pageNo=1;
 		}
-		String dealPersion = request.getHeader("login_code");
+		String dealPersion = request.getHeader("login-code");
 		query.setDealPersion(dealPersion);
 		MiniDaoPage<WorkApplyEntity> list = workApplyService.getAll(query, pageNo, pageSize);
 		// 分页数据

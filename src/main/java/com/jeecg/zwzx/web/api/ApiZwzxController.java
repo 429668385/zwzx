@@ -92,7 +92,7 @@ public class ApiZwzxController extends BaseController {
 	
 	@RequestMapping(value="/getApplies")
 	public @ResponseBody String getApplies(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String dealPersion = request.getHeader("login_code");
+		String dealPersion = request.getHeader("login-code");
     	String guideId=request.getParameter("guideId");
     	WorkApplyEntity workApply=new WorkApplyEntity();
     	workApply.setGuideId(guideId);
@@ -213,13 +213,13 @@ public class ApiZwzxController extends BaseController {
 	@RequestMapping("/registerCode")
 	public @ResponseBody AjaxJson registerCode(HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
-		String id = request.getHeader("login_code");
+		String id = request.getHeader("login-code");
 		WorkUserEntity workUser=new WorkUserEntity();
 		workUser.setId(id);
 		try {
 			MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
 			List<WorkUserEntity> workUserList = list.getResults();
-			if(workUserList.size()>0){
+			if(workUserList.size()==1){
 				workUser=workUserList.get(0);
 				Map<String,Object> attributes=new HashMap<String,Object>();
 				attributes.put("status", workUser.getStatus());
@@ -238,33 +238,37 @@ public class ApiZwzxController extends BaseController {
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	public @ResponseBody AjaxJson login(HttpServletRequest request, @RequestBody WorkUserEntity workUser) {
 		AjaxJson j = new AjaxJson();
-		String encryptPass="";
-		String decryptPass ="";
-		try {
-//			decryptPass= AES128Util.encrypt("123456", "W3ZNF7UMBAn9WFnx" ,"chMQRwqC2xIIXqLV");
-			encryptPass = AES128Util.decrypt(workUser.getPassword(), aesKey ,ivKey);
-		} catch (Exception e) {
-			//e.printStackTrace();
-		}
-		workUser.setPassword(PasswordUtil.encrypt(workUser.getUsername(), encryptPass, PasswordUtil.getStaticSalt()));
-//		String password = PasswordUtil.encrypt(workUser.getUsername(), workUser.getPassword(), PasswordUtil.getStaticSalt());
-//		workUser.setPassword(password);
-		try {
-			MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
-			List<WorkUserEntity> workUserList = list.getResults();
-			if(workUserList.size()>0){
-				workUser=workUserList.get(0);
-		        HttpSession session = ContextHolderUtils.getSession();
-				session.setAttribute("wuId", workUser.getId());
-				Map<String,Object> attributes=new HashMap<String,Object>();
-				attributes.put("login_code", workUser.getId());
-				j.setAttributes(attributes);
-				j.setSuccess(true);
-			}else{
+		if(workUser.getUsername()!=null&&workUser.getPassword()!=null){
+			String encryptPass="";
+			try {
+				encryptPass = AES128Util.decrypt(workUser.getPassword(), aesKey ,ivKey);
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+			System.out.println("phone:"+workUser.getUsername()+"-----"+"aespass:"+workUser.getPassword());
+			workUser.setPassword(PasswordUtil.encrypt(workUser.getUsername(), encryptPass, PasswordUtil.getStaticSalt()));
+			try {
+				MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
+				List<WorkUserEntity> workUserList = list.getResults();
+				if(workUserList.size()==1){
+					System.out.println("workUserList.size:"+workUserList.size()+"个");
+					workUser=workUserList.get(0);
+					
+	//		        HttpSession session = ContextHolderUtils.getSession();
+	//				session.setAttribute("wuId", workUser.getId());
+					Map<String,Object> attributes=new HashMap<String,Object>();
+					attributes.put("login_code", workUser.getId());
+					attributes.put("status", workUser.getStatus());
+					j.setAttributes(attributes);
+					j.setSuccess(true);
+				}else{
+					j.setSuccess(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 				j.setSuccess(false);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}else{
 			j.setSuccess(false);
 		}
 		return j;
@@ -273,24 +277,30 @@ public class ApiZwzxController extends BaseController {
 	@RequestMapping("/userInfo")
 	public @ResponseBody AjaxJson userInfo(HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
-		try {
-    		String id = request.getHeader("login_code");
-    		WorkUserEntity workUser=new WorkUserEntity();
-    		workUser.setId(id);
-			MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
-			List<WorkUserEntity> workUserList = list.getResults();
-			if(workUserList.size()>0){
-				workUser=workUserList.get(0);
-//				Map<String,Object> attributes=new HashMap<String,Object>();
-//				attributes.put("status", workUser.getStatus());
-//				j.setAttributes(attributes);
-				j.setObj(workUser);
-				j.setSuccess(true);
-			}else{
+		String id = request.getHeader("login-code");
+		if(id!=null&&id!=""){
+			try {
+	    		System.out.println("id:"+id);
+	    		WorkUserEntity workUser=new WorkUserEntity();
+	    		workUser.setId(id);
+				MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
+				List<WorkUserEntity> workUserList = list.getResults();
+				if(workUserList.size()>0){
+		    		System.out.println("workUserList.size():-----"+workUserList.size());
+					workUser=workUserList.get(0);
+	//				Map<String,Object> attributes=new HashMap<String,Object>();
+	//				attributes.put("status", workUser.getStatus());
+	//				j.setAttributes(attributes);
+					j.setObj(workUser);
+					j.setSuccess(true);
+				}else{
+					j.setSuccess(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 				j.setSuccess(false);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}else{
 			j.setSuccess(false);
 		}
 		return j;
@@ -303,7 +313,7 @@ public class ApiZwzxController extends BaseController {
 		
 		AjaxJson j = new AjaxJson();
 		try {
-    		String id = request.getHeader("login_code");
+    		String id = request.getHeader("login-code");
     		WorkUserEntity workUser=new WorkUserEntity();
     		workUser.setId(id);
 			String realname= URLDecoder.decode(request.getParameter("realname"),"utf-8");

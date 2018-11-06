@@ -77,6 +77,10 @@ public class ApiApplyController extends BaseController {
 		if(pageNo==0){
 			pageNo=1;
 		}
+		String status = request.getParameter("status");
+		if(status!=null&&status.equals("interviewList")){
+			query.setApplyStatus(2);
+		}
 		String dealPersion = request.getHeader("login-code");
 		query.setDealPersion(dealPersion);
 		MiniDaoPage<WorkApplyEntity> list = workApplyService.getAll(query, pageNo, pageSize);

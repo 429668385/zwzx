@@ -1,0 +1,23 @@
+INSERT  INTO
+	work_interview
+      ( 
+      ID                            
+      ,APPLY_ID                       
+      ,INTERVIEW_STATUS               
+      ,INTERVIEW_DATE                 
+      ,DEAL_DATE                      
+      ,DEAL_PERSION                   
+      ,AUDIT                          
+      ,REPLY                          
+      ) 
+values
+      (
+      :workInterview.id                            
+      ,:workInterview.applyId                       
+      ,:workInterview.interviewStatus               
+      ,:workInterview.interviewDate                 
+      ,:workInterview.dealDate                      
+      ,:workInterview.dealPersion                   
+      ,:workInterview.audit                         
+      ,:workInterview.reply                         
+      )

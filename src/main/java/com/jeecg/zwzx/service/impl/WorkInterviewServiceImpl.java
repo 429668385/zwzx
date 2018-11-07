@@ -1,11 +1,17 @@
 package com.jeecg.zwzx.service.impl;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 import java.util.UUID;
+
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.jeecg.zwzx.dao.WorkApplyDao;
 import com.jeecg.zwzx.dao.WorkInterviewDao;
+import com.jeecg.zwzx.entity.WorkApplyEntity;
 import com.jeecg.zwzx.entity.WorkInterviewEntity;
 import com.jeecg.zwzx.service.WorkInterviewService;
 
@@ -20,6 +26,8 @@ import com.jeecg.zwzx.service.WorkInterviewService;
 public class WorkInterviewServiceImpl implements WorkInterviewService {
 	@Resource
 	private WorkInterviewDao workInterviewDao;
+	@Resource
+	private WorkApplyDao workApplyDao;
 
 	@Override
 	public WorkInterviewEntity get(String id) {
@@ -56,5 +64,23 @@ public class WorkInterviewServiceImpl implements WorkInterviewService {
 			String id = ids[i];
 			workInterviewDao.deleteById(id);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void startInterview(WorkInterviewEntity workInterview) {
+		WorkApplyEntity workApply = workApplyDao.get(workInterview.getApplyId());
+		String randomSeed = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+		workInterview.setId(randomSeed);
+		workInterviewDao.insert(workInterview);		
+		workApply.setApplyStatus(3);
+		workApplyDao.update(workApply);
+	}
+
+	@Override
+	public List getInterviewNum(String guideId) {
+		
+		List interviewList=workInterviewDao.getInterviewNum(guideId);
+		return interviewList;
 	}
 }

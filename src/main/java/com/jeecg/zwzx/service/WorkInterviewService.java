@@ -1,7 +1,10 @@
 package com.jeecg.zwzx.service;
 
+import java.util.List;
+
 import org.jeecgframework.minidao.annotation.Param;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
+
 import com.jeecg.zwzx.entity.WorkInterviewEntity;
 
 /**
@@ -22,5 +25,9 @@ public interface WorkInterviewService {
 	public void delete(String id);
 	
 	public void batchDelete(String[] ids);
+
+	public void startInterview(WorkInterviewEntity workInterview);
+
+	public List getInterviewNum(String guideId);
 	
 }

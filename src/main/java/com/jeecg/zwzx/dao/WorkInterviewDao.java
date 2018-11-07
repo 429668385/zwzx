@@ -1,5 +1,7 @@
 package com.jeecg.zwzx.dao;
 
+import java.util.List;
+
 import org.jeecgframework.minidao.annotation.Param;
 import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
@@ -55,8 +57,11 @@ public interface WorkInterviewDao{
 	 * 根据ID删除
 	 * @param id
 	 */
-	 @Sql("DELETE from work_interview WHERE ID = :id")
-	 public void deleteById(@Param("id") String id);
+	@Sql("DELETE from work_interview WHERE ID = :id")
+	public void deleteById(@Param("id") String id);
+
+	@Sql("SELECT interview_date,choos_time,count(*) as interview_num  FROM work_interview where interview_date>DATE_SUB(CURDATE(),INTERVAL -1 DAY) group by interview_date,choos_time; ")
+	public List<WorkInterviewEntity> getInterviewNum(@Param("guideId") String guideId);
 	
 }
 

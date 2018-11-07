@@ -26,6 +26,10 @@
 		    /* 时间段 */
 			and wi.CHOOS_TIME = :workInterview.choosTime
 		</#if>
+	    <#if ( workInterview.interviewNum )??>
+		    /* 预约日期  */
+			and wi.INTERVIEW_NUM = :workInterview.interviewNum
+		</#if>
 	    <#if ( workInterview.dealDate )??>
 		    /* 办理日期 */
 			and wi.DEAL_DATE = :workInterview.dealDate

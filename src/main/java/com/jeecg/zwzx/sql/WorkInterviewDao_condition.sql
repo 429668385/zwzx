@@ -6,6 +6,14 @@
 		    /* 申报编号 */
 			and wi.APPLY_ID = :workInterview.applyId
 		</#if>
+		<#if ( workInterview.guideId )?? && workInterview.guideId ?length gt 0>
+		    /* 指南编号 */
+			and wi.GUIDE_ID = :workInterview.guideId
+		</#if>
+		<#if ( workInterview.management )?? && workInterview.management ?length gt 0>
+		    /* 实施部门 */
+			and wi.MANAGEMENT = :workInterview.management
+		</#if>
 		<#if ( workInterview.interviewStatus )?? && workInterview.interviewStatus ?length gt 0>
 		    /* 预约状态 */
 			and wi.INTERVIEW_STATUS = :workInterview.interviewStatus
@@ -13,6 +21,10 @@
 	    <#if ( workInterview.interviewDate )??>
 		    /* 预约日期  */
 			and wi.INTERVIEW_DATE = :workInterview.interviewDate
+		</#if>
+		<#if ( workInterview.choosTime )?? && workInterview.choosTime ?length gt 0>
+		    /* 时间段 */
+			and wi.CHOOS_TIME = :workInterview.choosTime
 		</#if>
 	    <#if ( workInterview.dealDate )??>
 		    /* 办理日期 */

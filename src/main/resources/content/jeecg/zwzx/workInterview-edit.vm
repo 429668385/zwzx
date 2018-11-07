@@ -20,6 +20,18 @@
 								    </div>
 								</div>
 								<div class="form-group mno">
+								    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">指南编号</label>
+								    <div class="col-sm-8">
+								    	<input type="text" value="$!{workInterview.guideId}" name="guideId" id="guideId" class="form-control" />
+								    </div>
+								</div>
+								<div class="form-group mno">
+								    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">实施部门</label>
+								    <div class="col-sm-8">
+								    	<input type="text" value="$!{workInterview.management}" name="management" id="management" class="form-control" />
+								    </div>
+								</div>
+								<div class="form-group mno">
 								    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">预约状态</label>
 								    <div class="col-sm-8">
 								    	<input type="text" value="$!{workInterview.interviewStatus}" name="interviewStatus" id="interviewStatus" class="form-control" />
@@ -29,6 +41,12 @@
 								    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">预约日期 </label>
 								    <div class="col-sm-8">
 								    	<input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{workInterview.interviewDate})" name="interviewDate" id="interviewDate" class="form-control" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"   style="background: url('$!{basePath}/plug-in-ui/images/datetime.png') no-repeat scroll right center transparent;"  />
+								    </div>
+								</div>
+								<div class="form-group mno">
+								    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">时间段</label>
+								    <div class="col-sm-8">
+								    	<input type="text" value="$!{workInterview.choosTime}" name="choosTime" id="choosTime" class="form-control" />
 								    </div>
 								</div>
 								<div class="form-group mno">

@@ -11,7 +11,7 @@ import com.jeecg.zwzx.entity.WorkInterviewEntity;
 /**
  * 描述：预约表
  * @author：www.jeecg.org
- * @since：2018年11月06日 07时09分10秒 星期二 
+ * @since：2018年11月07日 08时04分31秒 星期三 
  * @version:1.0
  */
 @Repository

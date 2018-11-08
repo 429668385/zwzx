@@ -42,9 +42,24 @@ public class ApiInterviewController extends BaseController{
   @Autowired
   private WorkInterviewService workInterviewService;
   
-
 	@RequestMapping(value="/interviewList")
-	public @ResponseBody String interviewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody String interviewList(@ModelAttribute WorkInterviewEntity query, HttpServletRequest request, HttpServletResponse response ,
+			@RequestParam(required = false, value = "pageNumber", defaultValue = "1") int pageNo,
+			@RequestParam(required = false, value = "pageSize", defaultValue = "6") int pageSize) throws Exception {
+		if(pageNo==0){
+			pageNo=1;
+		}
+		query.setInterviewStatus(3);
+		String dealPersion = request.getHeader("login-code");
+		query.setDealPersion(dealPersion);
+		MiniDaoPage<WorkInterviewEntity> list = workInterviewService.getAll(query, pageNo, pageSize);
+		// 分页数据
+		List<?> resut = list.getResults();
+		return JSONArray.toJSONString(resut);
+	}
+
+	@RequestMapping(value="/interviewTime")
+	public @ResponseBody String interviewTime(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String guideId = request.getParameter("guideid");
 		int everyInterviews=3;
 		List<WorkInterviewEntity> list =  workInterviewService.getInterviewNum(guideId);
@@ -60,6 +75,8 @@ public class ApiInterviewController extends BaseController{
 			map.put("interviewNum1", everyInterviews);
 			map.put("chooseTime2", everyInterviews);
 			map.put("interviewNum2", everyInterviews);
+			map.put("enablenum1", true);
+			map.put("enablenum2", true);
 			for( int j = 0 ; j < list.size() ; j++) {
 				WorkInterviewEntity interview = list.get(j);
 				Date interviewDate = interview.getInterviewDate();
@@ -69,10 +86,12 @@ public class ApiInterviewController extends BaseController{
 					if(interview.getChoosTime()==1){
 						map.put("chooseTime1", everyInterviews-interview.getChoosTime());
 						map.put("interviewNum1", everyInterviews-interview.getInterviewNum());
+						map.put("enablenum1", everyInterviews-interview.getInterviewNum()>0);
 					}
 					if(interview.getChoosTime()==2){
 						map.put("chooseTime2", everyInterviews-interview.getChoosTime());
 						map.put("interviewNum2", everyInterviews-interview.getInterviewNum());
+						map.put("enablenum2", everyInterviews-interview.getInterviewNum()>0);
 					}
 				}
 			}

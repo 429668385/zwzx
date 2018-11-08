@@ -78,11 +78,8 @@ public class ApiApplyController extends BaseController {
 			pageNo=1;
 		}
 		String status = request.getParameter("status");
-		if(status!=null&&status.equals("interviewNew")){
+		if(status!=null&&status.equals("waitInterviews")){
 			query.setApplyStatus(2);
-		}
-		if(status!=null&&status.equals("interviewAlready")){
-			query.setApplyStatus(3);
 		}
 		String dealPersion = request.getHeader("login-code");
 		query.setDealPersion(dealPersion);

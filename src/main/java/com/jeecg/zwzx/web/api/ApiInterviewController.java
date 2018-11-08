@@ -1,8 +1,11 @@
 package com.jeecg.zwzx.web.api;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +28,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.jeecg.zwzx.entity.WorkApplyEntity;
 import com.jeecg.zwzx.entity.WorkInterviewEntity;
 import com.jeecg.zwzx.service.WorkInterviewService;
+import com.jeecg.zwzx.utils.DateUtil;
 
  /**
  * 描述：预约表
@@ -42,11 +46,53 @@ public class ApiInterviewController extends BaseController{
 	@RequestMapping(value="/interviewList")
 	public @ResponseBody String interviewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String guideId = request.getParameter("guideid");
-		List list =  workInterviewService.getInterviewNum(guideId);
-		// 分页数据
-		
-		return JSONArray.toJSONString(list);
+		int everyInterviews=3;
+		List<WorkInterviewEntity> list =  workInterviewService.getInterviewNum(guideId);
+		ArrayList futureDaysList = new ArrayList();
+		for (int i = 1; i <= 7; i++) {
+			Map map=new HashMap();
+			String tmpDate = DateUtil.getFutureDate(i);
+			if(tmpDate.equals("weekend")){
+				continue;
+			}
+			map.put("date", tmpDate);
+			map.put("chooseTime1", everyInterviews);
+			map.put("interviewNum1", everyInterviews);
+			map.put("chooseTime2", everyInterviews);
+			map.put("interviewNum2", everyInterviews);
+			for( int j = 0 ; j < list.size() ; j++) {
+				WorkInterviewEntity interview = list.get(j);
+				Date interviewDate = interview.getInterviewDate();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String result = format.format(interviewDate);
+				if(result.equals(tmpDate)){
+					if(interview.getChoosTime()==1){
+						map.put("chooseTime1", everyInterviews-interview.getChoosTime());
+						map.put("interviewNum1", everyInterviews-interview.getInterviewNum());
+					}
+					if(interview.getChoosTime()==2){
+						map.put("chooseTime2", everyInterviews-interview.getChoosTime());
+						map.put("interviewNum2", everyInterviews-interview.getInterviewNum());
+					}
+				}
+			}
+			futureDaysList.add(map);
+		}
+
+		return JSONArray.toJSONString(futureDaysList);
 	}
+	
+//    public static void main(String args[]) { 
+//		ArrayList futureDaysList = new ArrayList();
+//		for (int i = 1; i <= 5; i++) {
+//			Map map=new HashMap();
+//			map.put("date", DateUtil.getFutureDate(i));
+//			futureDaysList.add(map);
+//		}
+//        System.out.println("Hello World!"); 
+//		
+//    } 
+	
 
 	 /**
 	  * 详情
@@ -80,6 +126,8 @@ public class ApiInterviewController extends BaseController{
 	@ResponseBody
 	public AjaxJson startInterview(@ModelAttribute WorkInterviewEntity workInterview,HttpServletRequest request,HttpServletResponse response){
 		AjaxJson j = new AjaxJson();
+		String dealPersion = request.getHeader("login-code");
+		workInterview.setDealPersion(dealPersion);
 		String chooseTime = request.getParameter("chooseTime");
 		String time = request.getParameter("date");
 		if(Integer.parseInt(chooseTime)==1){
@@ -97,7 +145,7 @@ public class ApiInterviewController extends BaseController{
 		}
 		workInterview.setChoosTime(Integer.parseInt(chooseTime));
 		workInterview.setInterviewDate(date);
-		workInterview.setInterviewStatus(1); //预约成功
+		workInterview.setInterviewStatus(3); //预约成功
 		try {
 			workInterviewService.startInterview(workInterview);
 			j.setMsg("保存成功");

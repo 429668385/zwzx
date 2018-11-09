@@ -83,4 +83,14 @@ public class WorkInterviewServiceImpl implements WorkInterviewService {
 		List interviewList=workInterviewDao.getInterviewNum(guideId);
 		return interviewList;
 	}
+
+	@Override
+	@Transactional
+	public void cancelInterview(String interviewId, String applyId) {
+		WorkApplyEntity workApply = workApplyDao.get(applyId);
+		workApply.setApplyStatus(2);
+		workApplyDao.update(workApply);
+		workInterviewDao.delete(interviewId);
+		
+	}
 }

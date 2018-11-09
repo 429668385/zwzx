@@ -65,4 +65,9 @@ public class WorkApplyServiceImpl implements WorkApplyService {
 		// TODO Auto-generated method stub
 		return workApplyDao.getUserName(management);
 	}
+
+	@Override
+	public MiniDaoPage<WorkApplyEntity> getApplyInterview(
+			WorkApplyEntity workApply, int page, int rows) {
+		return workApplyDao.getApplyInterview(workApply, page, rows);	}
 }

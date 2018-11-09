@@ -61,5 +61,8 @@ public interface WorkApplyDao{
 	@Sql("select username from t_s_base_user where id = (select owner from work_menu where id=:id)")
 	public String getUserName(@Param("id") String id);
 	
+	@ResultType(WorkApplyEntity.class)
+	public MiniDaoPage<WorkApplyEntity> getApplyInterview(@Param("workApply") WorkApplyEntity workApply,@Param("page")  int page,@Param("rows") int rows);
+	
 }
 

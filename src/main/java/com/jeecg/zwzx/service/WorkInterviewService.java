@@ -29,5 +29,7 @@ public interface WorkInterviewService {
 	public void startInterview(WorkInterviewEntity workInterview);
 
 	public List getInterviewNum(String guideId);
+
+	public void cancelInterview(String id, String applyId);
 	
 }

@@ -89,6 +89,25 @@ public class ApiApplyController extends BaseController {
 		return JSONArray.toJSONString(resut);
 	}
 
+	@RequestMapping(value="/applyInterviewList")
+	public @ResponseBody String applyInterviewList(@ModelAttribute WorkApplyEntity query, HttpServletRequest request, HttpServletResponse response ,
+			@RequestParam(required = false, value = "pageNumber", defaultValue = "1") int pageNo,
+			@RequestParam(required = false, value = "pageSize", defaultValue = "6") int pageSize) throws Exception {
+		if(pageNo==0){
+			pageNo=1;
+		}
+//		String status = request.getParameter("status");
+//		if(status!=null&&status.equals("waitInterviews")){
+//			query.setApplyStatus(2);
+//		}
+		String dealPersion = request.getHeader("login-code");
+		query.setDealPersion(dealPersion);
+		MiniDaoPage<WorkApplyEntity> list = workApplyService.getApplyInterview(query, pageNo, pageSize);
+		// 分页数据
+		List<?> resut = list.getResults();
+		return JSONArray.toJSONString(resut);
+	}
+
 //	@RequestMapping("/queryOneGuides")
 //	public @ResponseBody AjaxJson queryOneGuides(String guideId) {
 //		AjaxJson j = new AjaxJson();

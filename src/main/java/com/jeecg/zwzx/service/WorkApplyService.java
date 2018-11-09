@@ -25,5 +25,8 @@ public interface WorkApplyService {
 	public void batchDelete(String[] ids);
 
 	public String getUserName(String management);
+
+	public MiniDaoPage<WorkApplyEntity> getApplyInterview(
+			WorkApplyEntity query, int pageNo, int pageSize);
 	
 }

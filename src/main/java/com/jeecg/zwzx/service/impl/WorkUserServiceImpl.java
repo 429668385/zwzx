@@ -1,11 +1,18 @@
 package com.jeecg.zwzx.service.impl;
 
 import javax.annotation.Resource;
+
 import java.util.UUID;
+
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.jeecg.zwzx.dao.WorkApplyDao;
+import com.jeecg.zwzx.dao.WorkBlacklistDao;
+import com.jeecg.zwzx.dao.WorkInterviewDao;
 import com.jeecg.zwzx.dao.WorkUserDao;
+import com.jeecg.zwzx.entity.WorkBlacklistEntity;
 import com.jeecg.zwzx.entity.WorkUserEntity;
 import com.jeecg.zwzx.service.WorkUserService;
 
@@ -20,6 +27,12 @@ import com.jeecg.zwzx.service.WorkUserService;
 public class WorkUserServiceImpl implements WorkUserService {
 	@Resource
 	private WorkUserDao workUserDao;
+	@Resource
+	private WorkApplyDao workApplyDao;
+	@Resource
+	private WorkInterviewDao workInterviewDao;
+	@Resource
+	private WorkBlacklistDao workBlacklistDao;
 
 	@Override
 	public WorkUserEntity get(String id) {
@@ -45,9 +58,11 @@ public class WorkUserServiceImpl implements WorkUserService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(String id) {
 		workUserDao.delete(id);
-		
+		workApplyDao.deleterByUserId(id);
+		workInterviewDao.deleteByUserId(id);
 	}
 	
 	@Override
@@ -56,5 +71,20 @@ public class WorkUserServiceImpl implements WorkUserService {
 			String id = ids[i];
 			workUserDao.deleteById(id);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void doBlack(String id) {
+		WorkUserEntity workUser = workUserDao.get(id);		
+		WorkBlacklistEntity workBlacklist=new WorkBlacklistEntity();
+		workBlacklist.setPhone(workUser.getPhone());
+		workBlacklist.setIdcard(workUser.getIdcard());
+		String randomSeed = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+		workBlacklist.setId(randomSeed);
+		workBlacklistDao.insert(workBlacklist);
+		workUserDao.delete(id);
+		workApplyDao.deleterByUserId(id);
+		workInterviewDao.deleteByUserId(id);
 	}
 }

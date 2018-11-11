@@ -5,7 +5,7 @@
 <body style='overflow:scroll;overflow-x:hidden'>
 	<div class="container bs-docs-container" style="width:100%;">
 		<div class="row">
-			<form role="form" class="form-inline" action="$!{basePath}/jeecg/workUser.do?list" method="post"  id="formSubmit">
+			<form role="form" class="form-inline" action="$!{basePath}/jeecg/workBlacklist.do?list" method="post"  id="formSubmit">
 				<div  class="col-md-10" style="width:100%">
 					<div class="panel panel-default">
 						<div class="panel-heading">列表</div>
@@ -14,7 +14,13 @@
 										 <div class="form-group col-sm-3">
 											<label for="phone" class="control-label col-sm-3 line34">手机</label>
 											<div class="col-sm-8">
-												<input type="text" name="phone" id="phone" value="$!{workUser.phone}" class="form-control">
+												<input type="text" name="phone" id="phone" value="$!{workBlacklist.phone}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="idcard" class="control-label col-sm-3 line34">身份证号</label>
+											<div class="col-sm-8">
+												<input type="text" name="idcard" id="idcard" value="$!{workBlacklist.idcard}" class="form-control">
 											</div>
 										 </div>
 								<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜  索</button>
@@ -23,7 +29,7 @@
 							</div>
 							<div id="legend">
 								<legend  class="le">
-									<button type="button" class="btn btn-primary" onclick="doUrl('$!{basePath}/jeecg/workUser.do?toAdd')" ><i class="fa fa-plus"></i> 新增</button> 
+									<button type="button" class="btn btn-primary" onclick="doUrl('$!{basePath}/jeecg/workBlacklist.do?toAdd')" ><i class="fa fa-plus"></i> 新增</button> 
 									<button type="button" class="btn btn-primary" onclick="batchDelete()" ><i class="fa fa-trash-o"></i> 批量删除</button>
 								</legend>
 							</div>
@@ -33,14 +39,8 @@
 											<input type="checkbox" name="ckAll" id="ckAll" />
 					        		</th>
 											<th>手机</th>
-											<th>用户账号</th>
-									<!--		<th>密码</th>		-->
-											<th>有效状态</th>
-									<!--		<th>用户KEY</th>		-->
+											<th>状态</th>
 											<th>身份证号</th>
-											<th>真实名字</th>
-									<!--		<th>性别</th>	-->
-											<th>地址</th>
 									<th>操作</th>
 								</thead>
 								<tbody>
@@ -51,27 +51,11 @@
 													<input type="checkbox" name="ck" id="ck_$!{velocityCount}" value="$!{info.id}"/>
 											</td>	
 														<td>$!{info.phone}</td>
-														<td>$!{info.username}</td>
-											<!--			<td>$!{info.password}</td>	-->
-														<td>#if(${info.status}==4)
-																实名用户
-															#else
-																#if(${info.status}==3)
-																	普通用户
-																#else
-																	短信用户
-																#end
-															#end
-														</td>
-											<!--			<td>$!{info.userkey}</td>	-->
+														<td>$!{info.status}</td>
 														<td>$!{info.idcard}</td>
-														<td>$!{info.realname}</td>
-											<!--			<td>$!{info.sex}</td>	-->
-														<td>$!{info.address}</td>
 											<td class="last">
-											<a class="btn btn-success btn-xs"  href="javascript:doUrl('$!{basePath}/jeecg/workUser.do?toEdit&id=$!{info.id}')" ><i class="fa fa-edit"></i> 编辑</a>
-											<a class="btn btn-danger btn-xs" href="javascript:delData('$!{basePath}/jeecg/workUser.do?doDelete&id=$!{info.id}')"><i class="fa fa-trash-o"></i> 删除</a>
-											<a class="btn btn-primary btn-xs" href="javascript:delData('$!{basePath}/jeecg/workUser.do?doBlack&id=$!{info.id}')"><i class="fa fa-trash-o"></i> 拉黑</a>
+											<a class="btn btn-success btn-xs"  href="javascript:doUrl('$!{basePath}/jeecg/workBlacklist.do?toEdit&id=$!{info.id}')" ><i class="fa fa-edit"></i> 编辑</a>
+											<a class="btn btn-danger btn-xs" href="javascript:delData('$!{basePath}/jeecg/workBlacklist.do?doDelete&id=$!{info.id}')"><i class="fa fa-trash-o"></i> 删除</a>
 											</td>
 										</tr>
 									 #end
@@ -123,7 +107,7 @@ function batchDelete() {
         	btn: ['确定','取消'] //按钮
     	}, function(){
        		jQuery.ajax({
-       			url : '$!{basePath}/jeecg/workUser.do?batchDelete',
+       			url : '$!{basePath}/jeecg/workBlacklist.do?batchDelete',
        			data : {
        				ids : ids,
        			},

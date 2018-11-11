@@ -2,7 +2,6 @@ package com.jeecg.zwzx.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.velocity.VelocityContext;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.jeecgframework.p3.core.common.utils.AjaxJson;
@@ -16,23 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.jeecg.zwzx.entity.WorkBlacklistEntity;
-import com.jeecg.zwzx.entity.WorkUserEntity;
 import com.jeecg.zwzx.service.WorkBlacklistService;
-import com.jeecg.zwzx.service.WorkUserService;
 
  /**
- * 描述：用户表
+ * 描述：黑名单
  * @author: www.jeecg.org
- * @since：2018年09月28日 06时06分13秒 星期五 
+ * @since：2018年11月11日 09时47分35秒 星期日 
  * @version:1.0
  */
 @Controller
-@RequestMapping("/jeecg/workUser")
-public class WorkUserController extends BaseController{
-  @Autowired
-  private WorkUserService workUserService;
+@RequestMapping("/jeecg/workBlacklist")
+public class WorkBlacklistController extends BaseController{
   @Autowired
   private WorkBlacklistService workBlacklistService;
   
@@ -41,17 +35,17 @@ public class WorkUserController extends BaseController{
 	  * @return
 	  */
 	@RequestMapping(params = "list",method = {RequestMethod.GET,RequestMethod.POST})
-	public void list(@ModelAttribute WorkUserEntity query,HttpServletRequest request,HttpServletResponse response,
+	public void list(@ModelAttribute WorkBlacklistEntity query,HttpServletRequest request,HttpServletResponse response,
 			@RequestParam(required = false, value = "pageNo", defaultValue = "1") int pageNo,
 			@RequestParam(required = false, value = "pageSize", defaultValue = "10") int pageSize) throws Exception{
 			try {
 			 	LOG.info(request, " back list");
 			 	//分页数据
-				MiniDaoPage<WorkUserEntity> list =  workUserService.getAll(query,pageNo,pageSize);
+				MiniDaoPage<WorkBlacklistEntity> list =  workBlacklistService.getAll(query,pageNo,pageSize);
 				VelocityContext velocityContext = new VelocityContext();
-				velocityContext.put("workUser",query);
+				velocityContext.put("workBlacklist",query);
 				velocityContext.put("pageInfos",SystemTools.convertPaginatedList(list));
-				String viewName = "jeecg/zwzx/workUser-list.vm";
+				String viewName = "jeecg/zwzx/workBlacklist-list.vm";
 				ViewVelocity.view(request,response,viewName,velocityContext);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -63,11 +57,11 @@ public class WorkUserController extends BaseController{
 	  * @return
 	  */
 	@RequestMapping(params="toDetail",method = RequestMethod.GET)
-	public void workUserDetail(@RequestParam(required = true, value = "id" ) String id,HttpServletResponse response,HttpServletRequest request)throws Exception{
+	public void workBlacklistDetail(@RequestParam(required = true, value = "id" ) String id,HttpServletResponse response,HttpServletRequest request)throws Exception{
 			VelocityContext velocityContext = new VelocityContext();
-			String viewName = "jeecg/zwzx/workUser-detail.vm";
-			WorkUserEntity workUser = workUserService.get(id);
-			velocityContext.put("workUser",workUser);
+			String viewName = "jeecg/zwzx/workBlacklist-detail.vm";
+			WorkBlacklistEntity workBlacklist = workBlacklistService.get(id);
+			velocityContext.put("workBlacklist",workBlacklist);
 			ViewVelocity.view(request,response,viewName,velocityContext);
 	}
 
@@ -78,7 +72,7 @@ public class WorkUserController extends BaseController{
 	@RequestMapping(params = "toAdd",method ={RequestMethod.GET, RequestMethod.POST})
 	public void toAddDialog(HttpServletRequest request,HttpServletResponse response)throws Exception{
 		 VelocityContext velocityContext = new VelocityContext();
-		 String viewName = "jeecg/zwzx/workUser-add.vm";
+		 String viewName = "jeecg/zwzx/workBlacklist-add.vm";
 		 ViewVelocity.view(request,response,viewName,velocityContext);
 	}
 
@@ -88,10 +82,10 @@ public class WorkUserController extends BaseController{
 	 */
 	@RequestMapping(params = "doAdd",method ={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public AjaxJson doAdd(@ModelAttribute WorkUserEntity workUser){
+	public AjaxJson doAdd(@ModelAttribute WorkBlacklistEntity workBlacklist){
 		AjaxJson j = new AjaxJson();
 		try {
-			workUserService.insert(workUser);
+			workBlacklistService.insert(workBlacklist);
 			j.setMsg("保存成功");
 		} catch (Exception e) {
 			j.setSuccess(false);
@@ -108,9 +102,9 @@ public class WorkUserController extends BaseController{
 	@RequestMapping(params="toEdit",method = RequestMethod.GET)
 	public void toEdit(@RequestParam(required = true, value = "id" ) String id,HttpServletResponse response,HttpServletRequest request) throws Exception{
 			 VelocityContext velocityContext = new VelocityContext();
-			 WorkUserEntity workUser = workUserService.get(id);
-			 velocityContext.put("workUser",workUser);
-			 String viewName = "jeecg/zwzx/workUser-edit.vm";
+			 WorkBlacklistEntity workBlacklist = workBlacklistService.get(id);
+			 velocityContext.put("workBlacklist",workBlacklist);
+			 String viewName = "jeecg/zwzx/workBlacklist-edit.vm";
 			 ViewVelocity.view(request,response,viewName,velocityContext);
 	}
 
@@ -120,10 +114,10 @@ public class WorkUserController extends BaseController{
 	 */
 	@RequestMapping(params = "doEdit",method ={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public AjaxJson doEdit(@ModelAttribute WorkUserEntity workUser){
+	public AjaxJson doEdit(@ModelAttribute WorkBlacklistEntity workBlacklist){
 		AjaxJson j = new AjaxJson();
 		try {
-			workUserService.update(workUser);
+			workBlacklistService.update(workBlacklist);
 			j.setMsg("编辑成功");
 		} catch (Exception e) {
 			j.setSuccess(false);
@@ -143,7 +137,7 @@ public class WorkUserController extends BaseController{
 	public AjaxJson doDelete(@RequestParam(required = true, value = "id" ) String id){
 			AjaxJson j = new AjaxJson();
 			try {
-				workUserService.delete(id);
+				workBlacklistService.delete(id);
 				j.setMsg("删除成功");
 			} catch (Exception e) {
 				j.setSuccess(false);
@@ -151,21 +145,6 @@ public class WorkUserController extends BaseController{
 			    e.printStackTrace();
 			}
 			return j;
-	}
-	
-	@RequestMapping(params = "doBlack",method ={RequestMethod.GET, RequestMethod.POST})
-	@ResponseBody
-	public AjaxJson doBlack(@RequestParam(required = true, value = "id" ) String id,HttpServletResponse response,HttpServletRequest request){
-		AjaxJson j = new AjaxJson();
-		try {
-			workUserService.doBlack(id);
-			j.setMsg("保存成功");
-		} catch (Exception e) {
-			j.setSuccess(false);
-			j.setMsg("保存失败");
-		    e.printStackTrace();
-		}
-		return j;
 	}
 	
 	/**
@@ -178,7 +157,7 @@ public class WorkUserController extends BaseController{
 	public AjaxJson batchDelete(@RequestParam(required = true, value = "ids") String[] ids) {
 		AjaxJson j = new AjaxJson();
 		try {
-			workUserService.batchDelete(ids);
+			workBlacklistService.batchDelete(ids);
 			j.setMsg("批量删除成功");
 		} catch(Exception e) {
 			j.setSuccess(false);

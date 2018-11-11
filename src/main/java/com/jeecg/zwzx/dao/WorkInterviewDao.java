@@ -53,6 +53,8 @@ public interface WorkInterviewDao{
 	@Sql("DELETE from work_interview WHERE ID = :id")
 	public void delete(@Param("id") String id);
 	
+	@Sql("SELECT interview_date,choos_time,count(*) as interview_num  FROM work_interview where interview_date>DATE_SUB(CURDATE(),INTERVAL -1 DAY) group by interview_date,choos_time; ")
+	public List<WorkInterviewEntity> getInterviewNum(@Param("guideId") String guideId);
 	/**
 	 * 根据ID删除
 	 * @param id
@@ -60,8 +62,8 @@ public interface WorkInterviewDao{
 	@Sql("DELETE from work_interview WHERE ID = :id")
 	public void deleteById(@Param("id") String id);
 
-	@Sql("SELECT interview_date,choos_time,count(*) as interview_num  FROM work_interview where interview_date>DATE_SUB(CURDATE(),INTERVAL -1 DAY) group by interview_date,choos_time; ")
-	public List<WorkInterviewEntity> getInterviewNum(@Param("guideId") String guideId);
+	@Sql("DELETE from work_interview WHERE deal_persion = :id")
+	public void deleteByUserId(@Param("id") String id);
 	
 }
 

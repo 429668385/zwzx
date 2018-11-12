@@ -313,11 +313,19 @@ public class ApiZwzxController extends BaseController {
 		
 		AjaxJson j = new AjaxJson();
 		try {
-    		String id = request.getHeader("login-code");
     		WorkUserEntity workUser=new WorkUserEntity();
+			String idcard=request.getParameter("idcard");
+			workUser.setIdcard(idcard);
+			MiniDaoPage<WorkUserEntity> list = workUserService.getAll(workUser, 1, 10);
+			List<WorkUserEntity> workUserList = list.getResults();
+			if(workUserList.size()>0){
+				j.setSuccess(false);
+				j.setMsg("身份证号已注册");
+				return j;
+			}
+    		String id = request.getHeader("login-code");
     		workUser.setId(id);
 			String realname= URLDecoder.decode(request.getParameter("realname"),"utf-8");
-			String idcard=request.getParameter("idcard");
 			
 			workUser=workUserService.get(workUser.getId());
 			workUser.setRealname(realname);

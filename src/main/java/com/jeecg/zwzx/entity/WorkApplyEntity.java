@@ -12,14 +12,16 @@ import java.math.BigDecimal;
  */
 public class WorkApplyEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
-		/**	 *id	 */	private String id;	/**	 *实施部门	 */	private String management;	/**	 *指南编号	 */	private String guideId;
+		/**	 *id	 */	private String id;	/**	 *实施部门	 */	private String management;	private String managementName;
+	/**	 *指南编号	 */	private String guideId;
 	private String guideName;
 	
 	private String interviewId;	/**	 *证件号码	 */	private String idNumber;	/**	 *申报主体	 */	private String applySubject;	/**	 *法人代表	 */	private String legalRepresent;	/**	 *联系人	 */	private String contact;	/**	 *联系手机	 */	private String mobile;	/**	 *联系电话	 */	private String phone;	/**	 *地址	 */	private String address;	/**	 *取件类型	 */	private Integer receiveType;	/**	 *办件数量	 */	private Integer applyNum;	/**	 *申报状态	 */	private Integer applyStatus;	/**	 *申报日期	 */	private Date applyData;	/**	 *处理日期	 */	private Date dealData;
 		private Date interviewDate;
 	
 	private Integer choosTime;
-	/**	 *办理人员	 */	private String dealPersion;	/**	 *审核人	 */	private String audit;	/**	 *答复内容	 */	private String reply;
+	/**	 *办理人员	 */	private String dealPersion;
+	private String personName;	/**	 *审核人	 */	private String audit;	/**	 *答复内容	 */	private String reply;
 	/**
 	 * 上传材料
 	 */
@@ -70,6 +72,18 @@ public class WorkApplyEntity implements Serializable{
 	}
 	public void setInterviewId(String interviewId) {
 		this.interviewId = interviewId;
+	}
+	public String getManagementName() {
+		return managementName;
+	}
+	public void setManagementName(String managementName) {
+		this.managementName = managementName;
+	}
+	public String getPersonName() {
+		return personName;
+	}
+	public void setPersonName(String personName) {
+		this.personName = personName;
 	}
 }
 

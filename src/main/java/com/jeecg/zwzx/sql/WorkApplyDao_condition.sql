@@ -78,3 +78,15 @@
 		    /* 答复内容 */
 			and wa.processInstanceId = :workApply.processInstanceId
 		</#if>
+		<#if ( workApply.resCode )?? && workApply.resCode ?length gt 0>
+		    /* 答复内容 */
+			and wa.res_code = :workApply.resCode
+		</#if>
+		<#if ( workApply.openId )?? && workApply.openId ?length gt 0>
+		    /* 答复内容 */
+			and wa.open_id = :workApply.openId
+		</#if>
+		<#if ( workApply.formId )?? && workApply.formId ?length gt 0>
+		    /* 答复内容 */
+			and wa.form_id = :workApply.formId
+		</#if>

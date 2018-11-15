@@ -21,6 +21,9 @@ INSERT  INTO
       ,REPLY                          
       ,material       
       ,processInstanceId
+      ,res_code       
+      ,open_id
+      ,form_id
       ) 
 values
       (
@@ -44,4 +47,7 @@ values
       ,:workApply.reply                         
       ,:workApply.material     
       ,:workApply.processInstanceId
+      ,:workApply.resCode     
+      ,:workApply.openId
+      ,:workApply.formId
       )

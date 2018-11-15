@@ -60,4 +60,13 @@ SET
 	   <#if workApply.processInstanceId ?exists>
 		   processInstanceId = :workApply.processInstanceId,
 		</#if>
+	   <#if workApply.resCode ?exists>
+		   res_code = :workApply.resCode,
+		</#if>
+	   <#if workApply.openId ?exists>
+		   open_id = :workApply.openId,
+		</#if>
+	   <#if workApply.formId ?exists>
+		   form_id = :workApply.formId,
+		</#if>
 WHERE id = :workApply.id

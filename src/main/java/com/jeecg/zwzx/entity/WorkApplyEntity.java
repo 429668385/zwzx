@@ -30,6 +30,11 @@ public class WorkApplyEntity implements Serializable{
 	private String processInstanceId;
 	
 	private String deptLeaderPass;
+	
+	private String resCode;
+	private String openId;
+	private String formId;
+	
 		public String getId() {	    return this.id;	}	public void setId(String id) {	    this.id=id;	}	public String getManagement() {	    return this.management;	}	public void setManagement(String management) {	    this.management=management;	}	public String getGuideId() {	    return this.guideId;	}	public void setGuideId(String guideId) {	    this.guideId=guideId;	}	public String getIdNumber() {	    return this.idNumber;	}	public void setIdNumber(String idNumber) {	    this.idNumber=idNumber;	}	public String getApplySubject() {	    return this.applySubject;	}	public void setApplySubject(String applySubject) {	    this.applySubject=applySubject;	}	public String getLegalRepresent() {	    return this.legalRepresent;	}	public void setLegalRepresent(String legalRepresent) {	    this.legalRepresent=legalRepresent;	}	public String getContact() {	    return this.contact;	}	public void setContact(String contact) {	    this.contact=contact;	}	public String getMobile() {	    return this.mobile;	}	public void setMobile(String mobile) {	    this.mobile=mobile;	}	public String getPhone() {	    return this.phone;	}	public void setPhone(String phone) {	    this.phone=phone;	}	public String getAddress() {	    return this.address;	}	public void setAddress(String address) {	    this.address=address;	}	public Integer getReceiveType() {	    return this.receiveType;	}	public void setReceiveType(Integer receiveType) {	    this.receiveType=receiveType;	}	public Integer getApplyNum() {	    return this.applyNum;	}	public void setApplyNum(Integer applyNum) {	    this.applyNum=applyNum;	}	public Integer getApplyStatus() {	    return this.applyStatus;	}	public void setApplyStatus(Integer applyStatus) {	    this.applyStatus=applyStatus;	}	public Date getApplyData() {	    return this.applyData;	}	public void setApplyData(Date applyData) {	    this.applyData=applyData;	}	public Date getDealData() {	    return this.dealData;	}	public void setDealData(Date dealData) {	    this.dealData=dealData;	}	public String getDealPersion() {	    return this.dealPersion;	}	public void setDealPersion(String dealPersion) {	    this.dealPersion=dealPersion;	}	public String getAudit() {	    return this.audit;	}	public void setAudit(String audit) {	    this.audit=audit;	}	public String getReply() {	    return this.reply;	}	public void setReply(String reply) {	    this.reply=reply;	}
 	public String getMaterial() {
 		return material;
@@ -84,6 +89,24 @@ public class WorkApplyEntity implements Serializable{
 	}
 	public void setPersonName(String personName) {
 		this.personName = personName;
+	}
+	public String getResCode() {
+		return resCode;
+	}
+	public void setResCode(String resCode) {
+		this.resCode = resCode;
+	}
+	public String getFormId() {
+		return formId;
+	}
+	public void setFormId(String formId) {
+		this.formId = formId;
+	}
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 }
 

@@ -67,5 +67,9 @@ public interface WorkApplyDao{
 	@Sql("DELETE from work_apply WHERE deal_persion = :id")
 	public void deleterByUserId(@Param("id") String id);
 	
+	@ResultType(WorkApplyEntity.class)
+	public MiniDaoPage<WorkApplyEntity> applyEditList(@Param("workApply") WorkApplyEntity workApply,
+			@Param("page")  int page,@Param("rows") int rows);
+	
 }
 

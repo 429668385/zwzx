@@ -97,7 +97,8 @@ public class ApiZwzxController extends BaseController {
     	WorkApplyEntity workApply=new WorkApplyEntity();
     	workApply.setGuideId(guideId);
     	workApply.setDealPersion(dealPersion);
- 		MiniDaoPage<WorkApplyEntity> list = workApplyService.getAll(workApply, 1, 99999);
+    	workApply.setApplyStatus(0);
+ 		MiniDaoPage<WorkApplyEntity> list = workApplyService.getAll(workApply, 1, 999999);
 		// 分页数据
 		List<?> resut = list.getResults();
 		return JSONArray.toJSONString(resut);

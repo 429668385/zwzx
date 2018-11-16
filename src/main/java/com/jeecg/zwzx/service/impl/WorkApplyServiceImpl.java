@@ -70,4 +70,11 @@ public class WorkApplyServiceImpl implements WorkApplyService {
 	public MiniDaoPage<WorkApplyEntity> getApplyInterview(
 			WorkApplyEntity workApply, int page, int rows) {
 		return workApplyDao.getApplyInterview(workApply, page, rows);	}
+
+	@Override
+	public MiniDaoPage<WorkApplyEntity> applyEditList(WorkApplyEntity workApply,
+			int page, int rows) {
+		return workApplyDao.applyEditList(workApply, page, rows);
+	}
+
 }

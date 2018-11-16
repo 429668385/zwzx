@@ -28,5 +28,8 @@ public interface WorkApplyService {
 
 	public MiniDaoPage<WorkApplyEntity> getApplyInterview(
 			WorkApplyEntity query, int pageNo, int pageSize);
+
+	public MiniDaoPage<WorkApplyEntity> applyEditList(WorkApplyEntity query,
+			int pageNo, int pageSize);
 	
 }

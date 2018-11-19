@@ -27,6 +27,7 @@ import org.jeecgframework.p3.core.util.plugin.ViewVelocity;
 import org.jeecgframework.p3.core.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ import com.jeecg.zwzx.utils.AES128Util;
 import com.jeecg.zwzx.utils.ContextHolderUtils;
 import com.jeecg.zwzx.utils.ImageUtil;
 import com.jeecg.zwzx.utils.PasswordUtil;
+import com.jeecg.zwzx.utils.ResourceUtil;
 
 /**
  * CMS API
@@ -353,8 +355,9 @@ public class ApiZwzxController extends BaseController {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		try {
 			String existFile = request.getParameter("existFile");
-			String basePath = request.getSession().getServletContext().getRealPath("/");
+//			String basePath = request.getSession().getServletContext().getRealPath("/");
 			//获取所有文件名称  
+	        String basePath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
 			Iterator<String> it = request.getFileNames();  
 			while(it.hasNext()){  
 			    //根据文件名称取文件  
@@ -369,10 +372,10 @@ public class ApiZwzxController extends BaseController {
 				}
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
 		        String datedir = sdf.format(new Date());  
-			    String filePath = "upload/img/zwzx/"+datedir+"/"; 
+			    String filePath = "/upload/img/zwzx/"+datedir+"/"; 
 			    File file = new File(basePath+filePath);
 				if (!file.exists()) {
-					file.mkdir();// 创建文件根目录
+					file.mkdirs();// 创建文件根目录
 				}
 				filePath = filePath+fileName;
 			    String savePath = basePath+filePath;
@@ -381,6 +384,7 @@ public class ApiZwzxController extends BaseController {
 			    File newFile = new File(savePath);  
 			    //上传的文件写入到指定的文件中  
 			    multifile.transferTo(newFile);  
+//	    		FileCopyUtils.copy(realFilename.getBytes(), newFile);
 				ImageUtil.zoomImageScale(newFile, savePath,300);
 			    attributes.put("url", filePath);
 			    attributes.put("fileKey", fileName);
